@@ -3,6 +3,7 @@
 using namespace std;
 
 class SET {
+
     private:
         vector<vector<int>> sets;
 
@@ -264,93 +265,15 @@ class SET {
                 cout<<s[s.size()-1]<<endl;
             }
         }
-
 };
 
-void execute_sets(){
-}
 
 int main() {
     SET s;
-    // // set 0
-    // s.Insert(0,4);
-    // s.Insert(0,0);
-    // s.Insert(0,2);
-    // s.Insert(0,5);
-    // s.Insert(0,-5);
-    // s.Insert(0,-1);
-    // s.Insert(0,-2);
-    // s.Belongs_To(0, 4);
-    // s.Delete(0,4);
-
-    // // set 1
-    // s.Insert(1,3);
-    // s.Insert(1,4);
-    // s.Insert(1,1);
-    // s.Insert(1,7);
-    // s.Insert(1,-5);
-    // s.Insert(1,0);
-    // s.Insert(1,7);
-    // s.Insert(1,-2);
-
-    // // set 2
-    // s.Insert(2,45);
-    // s.Insert(2,0);
-    // s.Insert(2,3);
-    // s.Insert(2,4);
-    // s.Insert(2,9);
-    // s.Insert(2,5);
-    // s.Insert(2,1);
-    // s.Insert(2,2);
-    // // cout<<s.Belongs_To(2, 5)<<endl;
-    // // s.Delete(2,45);
-
-    // s.Union(1,3);
-
-    // // cout<<endl;
-    // cout<<"Sets"<<endl;
-    // s.print(0);
-    // s.print(1);
-    // s.print(2);
-    // s.print(3);
-    // s.print(4);
-
-    // cout<<endl;
-    // cout<<"size"<<endl;;
-    // cout<<s.Size(0)<<endl;
-    // cout<<s.Size(1)<<endl;
-    // cout<<s.Size(2)<<endl;
-
-    // cout<<endl;
-    // cout<<"Union 0,1"<<endl;
-    // s.Union(0,1);
-    // s.print(0);
-    // s.print(1);
-    // s.print(2);
-    
-    // cout<<endl;
-    // cout<<"Intersection 2,1"<<endl;
-    // s.Intersection(2,1);
-    // s.print(0);
-    // s.print(1);
-    // s.print(2);
-
-    // cout<<endl;
-    // cout<<"Difference 0,1"<<endl;
-    // s.Difference(0,1);
-    // s.print(0);
-    // s.print(1);
-    // s.print(2);
-
-    // cout<<endl;
-    // cout<<"Symmetric Difference 1,2"<<endl;
-    // s.Symmetric_Difference(1,2);
-    // s.print(0);
-    // s.print(1);
-    // s.print(2);
-    
     int function_number, set_num, data;
+    
     while(cin>>function_number>>set_num){
+
         if ((function_number == 6) or (function_number == 9)){
             switch(function_number){
                 case 6:
@@ -361,6 +284,7 @@ int main() {
                     break;
             }
         }
+
         else{
             cin>>data;
             switch(function_number){
