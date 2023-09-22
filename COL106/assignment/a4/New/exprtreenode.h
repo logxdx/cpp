@@ -20,5 +20,7 @@ public:
 
     ExprTreeNode(string t, UnlimitedInt* v);
 
+    ExprTreeNode(string t, UnlimitedRational* v);
+
     ~ExprTreeNode();
 };

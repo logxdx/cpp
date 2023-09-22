@@ -13,8 +13,9 @@ private:
 public:
 
     UnlimitedInt();
-    UnlimitedInt(string s); // Create from            string 
+    UnlimitedInt(string s); // Create from string 
     UnlimitedInt(int i); // Create from int
+    UnlimitedInt(int* ulimited_int, int cap, int sgn, int sz); // Complete constructor
 
     ~UnlimitedInt();
 
@@ -26,6 +27,9 @@ public:
 
     // Get sign
     int get_sign();
+
+    // Get capacity 
+    int get_capacity();
 
     // Implement these integer operations as they are defined for integers in mathematics
     // (Since there are no size restrictions)

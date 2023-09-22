@@ -9,6 +9,11 @@ private:
     SymEntry* root;
 
 public: 
+
+    SymbolTable();
+
+    ~SymbolTable();
+
     // Insert a key value pair in the symbol table
     void insert(string k, UnlimitedRational* v);
 
