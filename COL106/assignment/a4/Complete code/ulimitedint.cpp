@@ -12,6 +12,13 @@ UnlimitedInt::UnlimitedInt() {
 }
 
 UnlimitedInt::UnlimitedInt(string s) {
+
+    if (s[0] == '-') {
+        sign = -1;
+        s = s.substr(1);
+    } else {
+        sign = 1;
+    }
     
     bool flag = true;
     for (int i = 0; i<s.length(); i++) {
@@ -30,13 +37,6 @@ UnlimitedInt::UnlimitedInt(string s) {
     }
 
     else {
-
-        if (s[0] == '-') {
-            sign = -1;
-            s = s.substr(1);
-        } else {
-            sign = 1;
-        }
 
         size = s.length();
         capacity = size;
@@ -367,6 +367,95 @@ UnlimitedInt* UnlimitedInt::sub(UnlimitedInt *i1, UnlimitedInt* i2) {
 
 }
 
+UnlimitedInt* UnlimitedInt::mul(UnlimitedInt* i1, UnlimitedInt* i2) {
+
+    UnlimitedInt* result = new UnlimitedInt();
+
+    if (i1->sign == 0 || i2-> sign == 0) {
+        return result;
+    }
+
+    int carry = 0;
+
+    result->sign = (i1->sign)*(i2->sign);
+    int tempsize = i1->size + i2->size;
+    result->size = tempsize;
+    result->capacity = tempsize;
+    result->unlimited_int = new int[tempsize];
+
+    for ( int i = 0; i < tempsize; i++) {
+        result->unlimited_int[i] = 0;
+    }
+
+    for (int i = 0; i<i1->size; i++) {
+
+        int digit1 = i1->unlimited_int[i];
+        
+        for (int j = 0; j<i2->size; j++) {
+
+            int digit2 = i2->unlimited_int[j];
+
+            int prod = digit1*digit2 + carry;
+            
+            result->unlimited_int[i + j] += prod;
+            carry = (result->unlimited_int[i+j])/10;
+            result->unlimited_int[i + j] %= 10;
+        }
+    }
+
+    for (int i = tempsize - 1; i >= 0 && carry > 0; i--) {
+        result->unlimited_int[i] += carry;
+        carry = result->unlimited_int[i] / 10;
+        result->unlimited_int[i] %= 10;
+    }
+
+    while (result->size>1 && result->unlimited_int[result->size-1] == 0) {
+        result->size--;
+    }
+
+    return result;
+}
+
+UnlimitedInt* UnlimitedInt::div(UnlimitedInt* i1, UnlimitedInt* i2) {
+
+    UnlimitedInt* result = new UnlimitedInt(0);
+    
+    if (i2->sign != 0) {
+
+        if (i1->sign == 0) {
+            return result;
+        }
+
+        UnlimitedInt* Dividend = new UnlimitedInt(i1->unlimited_int, i1->capacity, 1, i1->size);
+        UnlimitedInt* Divisor = new UnlimitedInt(i2->unlimited_int, i2->capacity, 1, i2->size);
+        UnlimitedInt* one = new UnlimitedInt(1);
+
+        while (Dividend->sign > -1) {
+    
+            Dividend = sub(Dividend, Divisor);
+    
+            if (Dividend->sign != -1) {
+                result = add(result, one);
+            }
+        }
+
+        result->sign = (i1->sign)*(i2->sign);
+
+        if (Dividend->sign == 0) {
+            delete Dividend, Divisor, one;
+            return result;
+        }
+
+        else if (Dividend->sign == -1 && (result->sign == -1)) {
+            result = sub(result, one);
+            delete Dividend, Divisor, one;
+        }
+
+    }
+
+    return result;
+}
+
 string UnlimitedInt::to_string() {
     
     if (sign == 0) {
@@ -382,4 +471,30 @@ string UnlimitedInt::to_string() {
     s = (sign == -1) ? ('-' + s) : s;
 
     return s;
+}
+
+
+int main() {
+    UnlimitedInt* a = new UnlimitedInt("-5");
+    UnlimitedInt* b = new UnlimitedInt(3);
+
+
+    cout<<a->get_sign()<<" "<<a->to_string()<<endl;
+    cout<<b->get_sign()<<" "<<b->to_string()<<endl;
+
+
+    UnlimitedInt *sum, *diff, *prod, *div;
+ 
+    // sum = sum->add(a, b);
+    // cout<<"sum -> "<<sum->to_string()<<endl;
+
+    // diff = diff->sub(a, b);
+    // cout<<"sub -> "<<diff->to_string()<<endl;
+
+    // prod = prod->mul(a, b);
+    // cout<<"product -> "<<prod->get_sign()<<" "<<prod->to_string()<<endl;
+    
+    div = div->div(a, b);
+    cout<<"div -> "<<div->get_sign()<<" "<<div->to_string()<<endl;
+
 }
