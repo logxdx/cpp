@@ -96,6 +96,7 @@ UnlimitedInt::UnlimitedInt(int i) {
 }
 
 UnlimitedInt::UnlimitedInt(int* ulimited_int, int cap, int sgn, int sz) {
+
     sign = sgn;
     size = sz;
     capacity = cap;
@@ -126,7 +127,11 @@ int UnlimitedInt::get_sign() {
     return sign;
 }
 
-UnlimitedInt* UnlimitedInt::add(UnlimitedInt *i1, UnlimitedInt *i2) { // manage memory leak
+int UnlimitedInt::get_capacity() {
+    return capacity;
+}
+
+UnlimitedInt* UnlimitedInt::add(UnlimitedInt *i1, UnlimitedInt *i2) {
 
     UnlimitedInt* result = new UnlimitedInt();
     
@@ -198,6 +203,7 @@ UnlimitedInt* UnlimitedInt::sub(UnlimitedInt *i1, UnlimitedInt* i2) {
                 
         return result;
     }
+    
     if (i2->sign == 0) {
         return i1;
     }
@@ -268,10 +274,6 @@ UnlimitedInt* UnlimitedInt::sub(UnlimitedInt *i1, UnlimitedInt* i2) {
                 }
 
                 result->unlimited_int[i] = diff;
-            }
-            
-            while (result->size>1 && result->unlimited_int[result->size-1] == 0) {
-                result->size--;
             }
 
         }
@@ -354,11 +356,11 @@ UnlimitedInt* UnlimitedInt::sub(UnlimitedInt *i1, UnlimitedInt* i2) {
             else if (grt == 0) {
                 return result;
             }
-            
-            while (result->size>1 && result->unlimited_int[result->size-1] == 0) {
-                result->size--;
-            }
 
+        }
+
+        while (result->size>1 && result->unlimited_int[result->size-1] == 0) {
+        result->size--;
         }
 
     }
@@ -420,38 +422,48 @@ UnlimitedInt* UnlimitedInt::div(UnlimitedInt* i1, UnlimitedInt* i2) {
 
     UnlimitedInt* result = new UnlimitedInt(0);
     
-    if (i2->sign != 0) {
+    if (i1->sign == 0) {
+        return result;
+    }
 
-        if (i1->sign == 0) {
-            return result;
-        }
+    if (i2->sign != 0) {
 
         UnlimitedInt* Dividend = new UnlimitedInt(i1->unlimited_int, i1->capacity, 1, i1->size);
         UnlimitedInt* Divisor = new UnlimitedInt(i2->unlimited_int, i2->capacity, 1, i2->size);
+        UnlimitedInt* temp_res;
         UnlimitedInt* one = new UnlimitedInt(1);
 
-        while (Dividend->sign > -1) {
+        while (sub(Dividend, Divisor)->sign > 0) {
     
-            Dividend = sub(Dividend, Divisor);
-    
-            if (Dividend->sign != -1) {
-                result = add(result, one);
-            }
+            temp_res = sub(Dividend, Divisor);
+            Dividend = new UnlimitedInt(temp_res->unlimited_int, temp_res->capacity, temp_res->sign, temp_res->size);
+            result = add(result, one);
+
+        }
+
+        if (sub(Dividend, Divisor)->sign == -1 && ((i1->sign * i2->sign) == -1)) {
+            result = add(result, one);
+        }
+
+        if (sub(Dividend, Divisor)->sign == 0) {
+            result = add(result, one);
         }
 
         result->sign = (i1->sign)*(i2->sign);
 
-        if (Dividend->sign == 0) {
-            delete Dividend, Divisor, one;
-            return result;
-        }
-
-        else if (Dividend->sign == -1 && (result->sign == -1)) {
-            result = sub(result, one);
-            delete Dividend, Divisor, one;
-        }
+        delete Dividend, Divisor, one;
 
     }
+
+    return result;
+}
+
+UnlimitedInt* UnlimitedInt::mod(UnlimitedInt* i1, UnlimitedInt* i2) {
+
+    UnlimitedInt* result = new UnlimitedInt(0);
+    
+    result = div(i1, i2);
+    result = sub(i1, mul(i2, div(i1,i2)));
 
     return result;
 }
@@ -471,30 +483,4 @@ string UnlimitedInt::to_string() {
     s = (sign == -1) ? ('-' + s) : s;
 
     return s;
-}
-
-
-int main() {
-    UnlimitedInt* a = new UnlimitedInt("-5");
-    UnlimitedInt* b = new UnlimitedInt(3);
-
-
-    cout<<a->get_sign()<<" "<<a->to_string()<<endl;
-    cout<<b->get_sign()<<" "<<b->to_string()<<endl;
-
-
-    UnlimitedInt *sum, *diff, *prod, *div;
- 
-    // sum = sum->add(a, b);
-    // cout<<"sum -> "<<sum->to_string()<<endl;
-
-    // diff = diff->sub(a, b);
-    // cout<<"sub -> "<<diff->to_string()<<endl;
-
-    // prod = prod->mul(a, b);
-    // cout<<"product -> "<<prod->get_sign()<<" "<<prod->to_string()<<endl;
-    
-    div = div->div(a, b);
-    cout<<"div -> "<<div->get_sign()<<" "<<div->to_string()<<endl;
-
 }
