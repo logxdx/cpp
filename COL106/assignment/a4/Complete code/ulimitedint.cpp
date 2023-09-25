@@ -198,9 +198,8 @@ UnlimitedInt* UnlimitedInt::sub(UnlimitedInt *i1, UnlimitedInt* i2) {
 
     if (i1->sign == 0) {
 
-        UnlimitedInt* result = new UnlimitedInt(i2->unlimited_int, i2->capacity, -1*(i2->sign), i2->size);
+        return new UnlimitedInt(i2->unlimited_int, i2->capacity, -1*(i2->sign), i2->size);
                 
-        return result;
     }
     
     if (i2->sign == 0) {
