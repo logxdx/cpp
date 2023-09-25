@@ -1,3 +1,132 @@
 /* Do NOT add/remove any includes statements from this header file */
 /* unless EXPLICTLY clarified on Piazza. */
 #include "ulimitedrational.h"
+#include <iostream>
+
+UnlimitedInt* GCD(UnlimitedInt* i1, UnlimitedInt* i2) {
+    
+    while (i2->get_sign() != 0) {
+        UnlimitedInt* temp = i2;
+        i2 = UnlimitedInt::mod(i1, i2);
+        i1 = temp;
+    }
+
+    return i1;
+}
+
+UnlimitedRational::UnlimitedRational() {
+    p = new UnlimitedInt(0);
+    q = new UnlimitedInt(0);
+}
+
+UnlimitedRational::UnlimitedRational(UnlimitedInt* num, UnlimitedInt* den) {
+
+    if (den->get_sign() == 0) {
+        p = new UnlimitedInt(0);
+        q = new UnlimitedInt(0);
+    }
+
+    else {
+
+        if (num->get_sign() == 0) {
+            p = new UnlimitedInt(0);
+            q = den;
+        }
+        
+        else {
+            UnlimitedInt* gcd = GCD(num, den);
+            p = UnlimitedInt::div(num, gcd);
+            q = UnlimitedInt::div(den, gcd);
+
+        }
+    }
+}
+
+UnlimitedRational::~UnlimitedRational() {
+    delete p, q;
+}
+
+UnlimitedInt* UnlimitedRational::get_p() {
+    return p;
+}
+
+UnlimitedInt* UnlimitedRational::get_q() {
+    return q;
+}
+
+string UnlimitedRational::get_p_str() {
+    return p->to_string();
+}
+
+string UnlimitedRational::get_q_str() {
+    return q->to_string();
+}
+
+string UnlimitedRational::get_frac_str() {
+    return p->to_string() + "/" + q->to_string();
+}
+
+UnlimitedRational* UnlimitedRational::add(UnlimitedRational* i1, UnlimitedRational* i2) {
+
+    if (i1->get_frac_str() == "0/0" || i2->get_frac_str() == "0/0") {
+        return i1;
+    }
+
+    UnlimitedInt *a, *b;
+
+    a = UnlimitedInt::add(UnlimitedInt::mul(i1->p, i2->q), UnlimitedInt::mul(i1->q, i2->p));
+    b = UnlimitedInt::mul(i1->q, i2->q);
+
+    return new UnlimitedRational(a, b);
+}
+
+UnlimitedRational* UnlimitedRational::sub(UnlimitedRational* i1, UnlimitedRational* i2) {
+
+    if (i1->get_frac_str() == "0/0" || i2->get_frac_str() == "0/0") {
+        return i1;
+    }
+
+    UnlimitedInt *a, *b;
+
+    a = UnlimitedInt::sub(UnlimitedInt::mul(i1->p, i2->q), UnlimitedInt::mul(i1->q, i2->p));
+    b = UnlimitedInt::mul(i1->q, i2->q);
+
+    return new UnlimitedRational(a, b);
+  
+}
+
+UnlimitedRational* UnlimitedRational::mul(UnlimitedRational* i1, UnlimitedRational* i2) {
+
+    if (i1->get_frac_str() == "0/0") {
+        return i1;
+    }
+
+    if (i2->get_frac_str() == "0/0") {
+        return i2;
+    }
+
+    UnlimitedInt *a, *b;
+
+    a = UnlimitedInt::mul(i1->p, i2->p);
+    b = UnlimitedInt::mul(i1->q, i2->q);
+
+    return new UnlimitedRational(a, b);
+}
+
+UnlimitedRational* UnlimitedRational::div(UnlimitedRational* i1, UnlimitedRational* i2) {
+
+    if (i1->get_frac_str() == "0/0") {
+        return i1;
+    }
+
+    if (i2->get_frac_str() == "0/0") {
+        return i2;
+    }
+
+    UnlimitedInt *a, *b;
+
+    a = UnlimitedInt::mul(i1->p, i2->q);
+    b = UnlimitedInt::mul(i1->q, i2->p);
+
+    return new UnlimitedRational(a, b);
+}
