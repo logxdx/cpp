@@ -1,7 +1,6 @@
 /* Do NOT add/remove any includes statements from this header file */
 /* unless EXPLICTLY clarified on Piazza. */
 #include "ulimitedrational.h"
-#include <iostream>
 
 UnlimitedInt* GCD(UnlimitedInt* i1, UnlimitedInt* i2) {
     
@@ -43,7 +42,8 @@ UnlimitedRational::UnlimitedRational(UnlimitedInt* num, UnlimitedInt* den) {
 }
 
 UnlimitedRational::~UnlimitedRational() {
-    delete p, q;
+    delete p;
+    delete q;
 }
 
 UnlimitedInt* UnlimitedRational::get_p() {
