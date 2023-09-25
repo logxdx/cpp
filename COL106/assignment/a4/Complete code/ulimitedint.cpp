@@ -449,7 +449,9 @@ UnlimitedInt* UnlimitedInt::div(UnlimitedInt* i1, UnlimitedInt* i2) {
 
         result->sign = (i1->sign)*(i2->sign);
 
-        delete Dividend, Divisor, one;
+        delete Dividend;
+        delete Divisor;
+        delete one;
 
     }
 
