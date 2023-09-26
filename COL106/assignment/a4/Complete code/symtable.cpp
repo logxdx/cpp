@@ -2,6 +2,16 @@
 /* unless EXPLICTLY clarified on Piazza. */
 #include "symtable.h"
 
+void delete_tree(SymEntry* root) {
+    
+    if (root != nullptr) {
+        delete_tree(root->left);
+        delete_tree(root->right);
+        delete root;
+    }
+    return;
+}
+
 SymbolTable::SymbolTable() {
 
     size = 0;
@@ -11,22 +21,6 @@ SymbolTable::SymbolTable() {
 SymbolTable::~SymbolTable() {
    
     delete_tree(root);
-}
-
-void delete_tree(SymEntry* root) {
-    
-    if (root != nullptr) {
-        delete_tree(root->left);
-        delete_tree(root->right);
-        delete root;
-    }
-}
-
-void SymbolTable::insert(string k, UnlimitedRational* v) {
-    
-    root = insert_recursive(root, k, v);
-    size++;
-
 }
 
 SymEntry* insert_recursive(SymEntry* node, string k, UnlimitedRational* v) {
@@ -47,10 +41,10 @@ SymEntry* insert_recursive(SymEntry* node, string k, UnlimitedRational* v) {
 
 }
 
-void SymbolTable::remove(string k) {
-
-    root = remove_recursive(root, k);
-    size--;
+void SymbolTable::insert(string k, UnlimitedRational* v) {
+    
+    root = insert_recursive(root, k, v);
+    size++;
 
 }
 
@@ -96,9 +90,10 @@ SymEntry* remove_recursive(SymEntry* node, string k) {
 
 }
 
-UnlimitedRational* SymbolTable::search(string k) {
+void SymbolTable::remove(string k) {
 
-    return search_recursive(root, k);
+    root = remove_recursive(root, k);
+    size--;
 
 }
 
@@ -116,6 +111,12 @@ UnlimitedRational* search_recursive(SymEntry* node, string k) {
     else {
         return node->val;
     }
+
+}
+
+UnlimitedRational* SymbolTable::search(string k) {
+
+    return search_recursive(root, k);
 
 }
 
