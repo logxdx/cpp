@@ -446,7 +446,6 @@ UnlimitedInt* UnlimitedInt::mul(UnlimitedInt* i1, UnlimitedInt* i2) {
             
             carry = prod/10;
             limited_int[counter1 + counter2] = prod%10;
-            // limited_int[i + j] += prod;
 
             counter2++;
         }
@@ -496,29 +495,21 @@ UnlimitedInt* UnlimitedInt::div(UnlimitedInt* i1, UnlimitedInt* i2) {
         while (sub(Dividend, Divisor)->sign >= 0 || sub(Dividend, Divisor)->sign != -1) {
             
             UnlimitedInt* temp_res;
-            // cout<<"Dividend : "<<Dividend->to_string()<<endl;
-            // cout<<sub(Dividend, Divisor)->to_string()<<endl;
             temp_res = new UnlimitedInt(sub(Dividend, Divisor)->to_string());
-            // Dividend = new UnlimitedInt(temp_res->unlimited_int, temp_res->capacity, temp_res->sign, temp_res->size);
+
             Dividend = new UnlimitedInt(temp_res->to_string());
+
             result = add(result, one);
-            // cout<<temp_res->to_string()<<endl;
-            // cout<<result->to_string()<<endl;
         }
 
         if (sub(Dividend, Divisor)->sign == -1 && ((i1->sign * i2->sign) == -1)) {
             result = add(result, one);
         }
 
-        // if (sub(Dividend, Divisor)->sign == 0) {
-            // result = add(result, one);
-        // }
-
         result->sign = (i1->sign)*(i2->sign);
 
     }
 
-            // cout<<"Result : "<<result->to_string()<<endl;
     return result;
 }
 
@@ -526,11 +517,6 @@ UnlimitedInt* UnlimitedInt::mod(UnlimitedInt* i1, UnlimitedInt* i2) {
 
     UnlimitedInt* result = new UnlimitedInt();
     
-    // result = new UnlimitedInt(div(i1, i2)->to_string());
-    cout<<i1->to_string()<<endl;
-    cout<<i2->to_string()<<endl;
-    cout<<div(i1, i2)->to_string()<<endl;
-    cout<<mul(i2, div(i1, i2))->to_string()<<endl;
     result = new UnlimitedInt(sub(i1, mul(i2, div(i1,i2)))->to_string());
 
     return result;
@@ -551,47 +537,4 @@ string UnlimitedInt::to_string() {
     s = (sign == -1) ? ('-' + s) : s;
 
     return s;
-}
-
-int main() {
-
-    int i = 0;
-
-    // UnlimitedInt* i1 = new UnlimitedInt(354);
-    UnlimitedInt* i1 = new UnlimitedInt("965314684111");
-    UnlimitedInt* i2 = new UnlimitedInt("26546531");
-    UnlimitedInt* i3 = new UnlimitedInt(i1->get_array(), i1->get_capacity(), i1->get_sign(), i1->get_size());
-    UnlimitedInt* i4 = new UnlimitedInt(4);
-    
-    // cout << i1->to_string() << endl;
-    // cout << i2->to_string() << endl;
-    // cout << i3->to_string() << endl;
-    // cout << UnlimitedInt::add(i3,i4)->to_string() << endl;
-    
-        // for (int i = 0; i< i1->get_size(); i++) {
-        //     cout<<i1->get_array()[i]<<endl;
-        // }
-    while(i < 10) {
-    // while(i1 -> get_sign() != 0) {
-        // cout<<(UnlimitedInt::mul(i1, i2))->to_string()<<endl;
-        i1 = (UnlimitedInt::mul(i1, i2));
-        cout<<"RESULT : "<<i1->to_string()<<endl;
-        cout<<endl;
-        // i1 = UnlimitedInt::sub(i1, i2);
-        // cout<<i1->to_string()<<endl;
-        // i1 = UnlimitedInt::mul(i1, i2);
-        // cout<<i1->to_string()<<endl;
-        // i1 = UnlimitedInt::div(i1, i2);
-        // cout<<i1->to_string()<<endl;
-        // i1 = UnlimitedInt::mod(i1, i2);
-        // cout<<i1->to_string()<<endl;
-        i++;
-        // cout<<endl<<endl;
-    }
-    
-    delete i1;
-    delete i2;
-    delete i3;
-    return 0;
-
 }
