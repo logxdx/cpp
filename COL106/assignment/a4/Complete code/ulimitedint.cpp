@@ -1,7 +1,6 @@
 /* Do NOT add/remove any includes statements from this header file */
 /* unless EXPLICTLY clarified on Piazza. */
 #include "ulimitedint.h"
-#include<iostream>
 
 int abs_compare(UnlimitedInt* i1, UnlimitedInt *i2) {
 
