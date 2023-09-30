@@ -1,16 +1,21 @@
 /* Do NOT add/remove any includes statements from this header file */
 /* unless EXPLICTLY clarified on Piazza. */
 #include "ulimitedrational.h"
+#include<iostream>
 
 UnlimitedInt* GCD(UnlimitedInt* i1, UnlimitedInt* i2) {
     
-    while (i2->get_sign() != 0) {
-        UnlimitedInt* temp = i2;
-        i2 = UnlimitedInt::mod(i1, i2);
-        i1 = temp;
+    UnlimitedInt* temp1 = new UnlimitedInt(i1->to_string());
+    UnlimitedInt* temp2 = new UnlimitedInt(i2->to_string());
+
+    while (temp2->get_sign() != 0) {
+        UnlimitedInt* temp = temp2;
+        temp2 = UnlimitedInt::mod(temp1, temp2);
+        delete temp1;
+        temp1 = temp;
     }
 
-    return i1;
+    return temp1;
 }
 
 UnlimitedRational::UnlimitedRational() {
@@ -36,7 +41,6 @@ UnlimitedRational::UnlimitedRational(UnlimitedInt* num, UnlimitedInt* den) {
             UnlimitedInt* gcd = GCD(num, den);
             p = UnlimitedInt::div(num, gcd);
             q = UnlimitedInt::div(den, gcd);
-
         }
     }
 }
