@@ -7,7 +7,7 @@ Evaluator::Evaluator() {
 }
 
 Evaluator::~Evaluator() {
-    delete symtable;
+    
 }
 
 bool isOperatorChar(char c) {
@@ -25,6 +25,7 @@ int precedence(char c) {
     return -5;
 }
 
+// convert infix expression to prefix expression for easy parsing
 vector<string> infixToPrefix(const vector<string>& infixTokens) {
     vector<string> prefix;
     vector<char> operators;
