@@ -20,7 +20,7 @@ UnlimitedInt* GCD(UnlimitedInt* i1, UnlimitedInt* i2) {
 
 UnlimitedRational::UnlimitedRational() {
     p = new UnlimitedInt(0);
-    q = new UnlimitedInt(0);
+    q = new UnlimitedInt(1);
 }
 
 UnlimitedRational::UnlimitedRational(UnlimitedInt* num, UnlimitedInt* den) {
@@ -39,6 +39,11 @@ UnlimitedRational::UnlimitedRational(UnlimitedInt* num, UnlimitedInt* den) {
         
         else {
             UnlimitedInt* gcd = GCD(num, den);
+
+            // cout<<"NUM : "<<num->to_string()<<endl;
+            // cout<<"DEN : "<<den->to_string()<<endl;
+            // cout<<"GCD : "<<gcd->to_string()<<endl;
+            
             p = UnlimitedInt::div(num, gcd);
             q = UnlimitedInt::div(den, gcd);
         }
