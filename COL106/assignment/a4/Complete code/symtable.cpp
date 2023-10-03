@@ -3,7 +3,7 @@
 #include "symtable.h"
 
 void delete_tree(SymEntry* root) {
-    
+        
     if (root != nullptr) {
         delete_tree(root->left);
         delete_tree(root->right);
@@ -13,13 +13,11 @@ void delete_tree(SymEntry* root) {
 }
 
 SymbolTable::SymbolTable() {
-
     size = 0;
     root = nullptr;
 }
 
 SymbolTable::~SymbolTable() {
-   
     delete_tree(root);
 }
 
@@ -45,7 +43,6 @@ void SymbolTable::insert(string k, UnlimitedRational* v) {
     
     root = insert_recursive(root, k, v);
     size++;
-
 }
 
 SymEntry* remove_recursive(SymEntry* node, string k) {
@@ -94,7 +91,6 @@ void SymbolTable::remove(string k) {
 
     root = remove_recursive(root, k);
     size--;
-
 }
 
 UnlimitedRational* search_recursive(SymEntry* node, string k) {
@@ -117,17 +113,24 @@ UnlimitedRational* search_recursive(SymEntry* node, string k) {
 UnlimitedRational* SymbolTable::search(string k) {
 
     return search_recursive(root, k);
-
 }
 
 int SymbolTable::get_size() {
     
     return size;
-
 }
 
 SymEntry* SymbolTable::get_root() {
     
     return root;
 
+}
+
+SymEntry* minValueNode(SymEntry* node) {
+    
+    SymEntry* current = node;
+    while (current->left != nullptr) {
+        current = current->left;
+    }
+    return current;
 }
