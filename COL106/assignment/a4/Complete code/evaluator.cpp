@@ -1,6 +1,7 @@
 /* Do NOT add/remove any includes statements from this header file */
 /* unless EXPLICTLY clarified on Piazza. */
 #include "evaluator.h"
+#include <iostream>
 
 Evaluator::Evaluator() {
     symtable = new SymbolTable();
@@ -157,4 +158,67 @@ void Evaluator::eval() {
     symtable->insert(s,a);
     
     return;
+}
+
+
+void printTreeStructure(ExprTreeNode* n, int depth = 0) {
+    // Print indentation based on depth
+    for (int i = 0; i < depth; ++i) {
+        std::cout << "  ";
+    }
+
+    // Print node information
+    if (n->type == "VAL") {
+        cout << n->type << " ";
+        cout<<n->val->get_frac_str()<<endl;
+    }
+    else if (n->type == "VAR") {
+        cout << n->type << " ";
+        cout<<n->id<<endl;
+    }
+    else {
+        cout<< n->type << endl;
+    }
+
+    // Recursively print left and right subtrees
+    if (n->left != nullptr) {
+        printTreeStructure(n->left, depth +1 );
+    }
+    if (n->right != nullptr) {
+        printTreeStructure(n->right, depth + 1);
+    }
+}
+
+
+int main() {
+
+    Evaluator* e = new Evaluator();
+    
+    vector<string> code1 = {"x", ":=", "(", "1", "+", "(", "2", "*", "3", ")", ")"};
+    vector<string> code2 = {"v", ":=", "1", "+", "2", "*","x"};
+    vector<string> code3 = {"y", ":=", "(", "15", "*", "(", "2", "+", "(", "7", "/", "x", ")", ")", ")"};
+    vector<string> code4 = {"z" , ":=", "(","2","+","y",")"};
+    
+
+
+    e->parse(code1);
+    e->eval();
+    cout << e->symtable->search("x")->get_frac_str()<<endl;
+    e->parse(code2);
+    e->eval();
+    cout << e->symtable->search("v")->get_frac_str()<<endl;
+    e->parse(code3);
+    e->eval();
+    cout << e->symtable->search("y")->get_frac_str()<<endl;
+    e->parse(code4);
+    e->eval();
+    cout << e->symtable->search("z")->get_frac_str()<<endl;
+    
+    while (!e->expr_trees.empty()) {
+        cout<<endl;
+        printTreeStructure(e->expr_trees.back(), 0);
+        e->expr_trees.pop_back();
+        cout<<endl;
+    }
+    return 0;
 }
