@@ -6,12 +6,22 @@
 
 HeapNode::HeapNode(){
 
+    val = -1;
+    par = NULL;
+    left = NULL;
+    right = NULL;
+
 }
 
 HeapNode::HeapNode(int _val){
 
+    val = _val;
+    par = NULL;
+    left = NULL;
+    right = NULL;
+
 }
 
-HeapNode::~HeapNode(){
+HeapNode::~HeapNode() {
   
 }
