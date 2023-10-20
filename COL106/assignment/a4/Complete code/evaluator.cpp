@@ -194,28 +194,34 @@ int main() {
 
     Evaluator* e = new Evaluator();
     
-    vector<string> code1 = {"x", ":=", "(", "1", "+", "(", "2", "*", "3", ")", ")"};
-    vector<string> code2 = {"v", ":=", "1", "+", "2", "*","x"};
-    vector<string> code3 = {"y", ":=", "(", "15", "*", "(", "2", "+", "(", "7", "/", "x", ")", ")", ")"};
+    vector<string> code0 = {"a", ":=", "(", "15", "+", "(", "284", "*", "345", ")", ")"};
+    vector<string> code1 = {"x", ":=", "(", "a", "/", "7", ")"};
+    vector<string> code2 = {"k", ":=", "1", "+", "2", "*","a"};
+    vector<string> code3 = {"y", ":=", "(", "k", "*", "(", "2", "+", "(", "a", "/", "7", ")", ")", ")"};
     vector<string> code4 = {"z" , ":=", "(","2","+","y",")"};
     
 
 
+    e->parse(code0);
+    e->eval();
+    cout << "a : " << e->symtable->search("a")->get_frac_str()<<endl;
     e->parse(code1);
     e->eval();
-    cout << e->symtable->search("x")->get_frac_str()<<endl;
+    cout << "x : " << e->symtable->search("x")->get_frac_str()<<endl;
     e->parse(code2);
     e->eval();
-    cout << e->symtable->search("v")->get_frac_str()<<endl;
+    cout << "k : " << e->symtable->search("k")->get_frac_str()<<endl;
     e->parse(code3);
     e->eval();
-    cout << e->symtable->search("y")->get_frac_str()<<endl;
+    cout << "y : " << e->symtable->search("y")->get_frac_str()<<endl;
     e->parse(code4);
     e->eval();
-    cout << e->symtable->search("z")->get_frac_str()<<endl;
+    cout << "z : " << e->symtable->search("z")->get_frac_str()<<endl;
     
     while (!e->expr_trees.empty()) {
-        cout<<endl;
+        cout<<endl<<endl;
+        cout<<"Expression Tree for : ";
+        cout<<e->expr_trees.back()->left->id<<endl;
         printTreeStructure(e->expr_trees.back(), 0);
         e->expr_trees.pop_back();
         cout<<endl;
