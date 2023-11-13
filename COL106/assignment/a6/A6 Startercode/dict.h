@@ -25,8 +25,6 @@ private:
 
             TreeNode* LeftLeftRotation(); // case 1
             TreeNode* RightRightRotation(); // case 2
-            TreeNode* LeftRightRotation(); // case 3
-            TreeNode* RightLeftRotation(); // case 4
 
             ~TreeNode();
             
@@ -45,19 +43,12 @@ private:
             Dict::TreeNode* insert_recursive(string k, Dict::TreeNode* node);
             void insert(string k);
 
-            // Remove a key (and it's memory address) in the symbol table
-            Dict::TreeNode* remove_recursive(string k, Dict::TreeNode* node);
-            void remove(string k);
-        
             // Find the memory address corresponding to the variable in the symbol table
             int search(string k);
 
             // Pretty print Tree
             void print_AVL_Tree(TreeNode* node, int depth = 0);
             void write_AVL_Tree(TreeNode* node, vector<string> &words);
-
-            // Get size
-            int get_size();
 
             // Get height
             int getHeight(Dict::TreeNode* node);
@@ -79,7 +70,7 @@ private:
 
             ~AVL_TREE();
             
-        };    
+    };    
 
     AVL_TREE* tree;
 

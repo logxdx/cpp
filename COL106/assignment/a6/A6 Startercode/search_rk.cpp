@@ -32,35 +32,30 @@ SearchEngine::Sentence_Node::Sentence_Node(int b_code, int pg, int para, int s_n
 }
 
 
-SearchEngine::SearchEngine(){
-    // Implement your function here  
 
+SearchEngine::SearchEngine() {
 
 }
-
 
 SearchEngine::~SearchEngine()
 {
     for (int i = 0; i < kiku.size(); i++)
     {
-        //cout << kiku.size() << " ";
         delete(kiku[i]);
         kiku[i] = nullptr;
-        //cout << "del kiku"<<endl;
     }
     
     
 }
 
-
-void SearchEngine::insert_sentence(int book_code, int page, int paragraph, int sentence_no, string sentence){
-    // // Implement your function here
-    // root = insert_sentence_recursive(root, book_code, page, paragraph, sentence_no, to_lower(sentence));
-    // return;
-
+void SearchEngine::insert_sentence(int book_code, int page, int paragraph, int sentence_no, string sentence) {
+    
     Sentence_Node* nenode = new Sentence_Node(book_code,page,paragraph,sentence_no,sentence);
     kiku.push_back(nenode);
+
 }
+
+
 
 class polyhash
 {
@@ -121,6 +116,8 @@ vector<ull> polyhash::pow2{1};
 
 vector<int> offs;
 
+
+
 void rka(string sent, string pat)
 {
     const int mxpow = max(sent.size(),pat.size());
@@ -146,13 +143,10 @@ void rka(string sent, string pat)
             {
                 offs.push_back(i);
             }
-             
             
         }
     }
 }
-
-
 
 Node* SearchEngine::search(string pattern, int& n_matches)
 {
@@ -177,7 +171,7 @@ Node* SearchEngine::search(string pattern, int& n_matches)
 
     n_matches += ll.size();
 
-   
+
     if (ll.size() != 0)
     {
         for (int i = 0; i < ll.size()-1; i++)
@@ -192,22 +186,3 @@ Node* SearchEngine::search(string pattern, int& n_matches)
     
     
 }
-
-// int main()
-// {
-//     SearchEngine S;
-//     string a = "karan is gay";
-//     string b = "bhusand is gay";
-
-//     S.insert_sentence(1,1,1,1,a);
-//     S.insert_sentence(1,1,1,2,b);
-
-//     int count = 0;
-//     Node* head = S.search("gay",count);
-
-//     cout << "o";
-//     cout <<endl << count;
-
-
-// }
-
