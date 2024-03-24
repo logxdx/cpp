@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 int maintainheight(QNA_tool::SymNode *root)
 {
     if (root == NULL)
@@ -179,6 +181,8 @@ QNA_tool::SymNode::~SymNode()
 {
     // cout << "mem free at " << key << endl;
 }
+
+
 
 int balancefactor(QNA_tool::SymNode *root)
 {
@@ -408,6 +412,8 @@ QNA_tool::SymbolTable::~SymbolTable()
     // free(root);
 }
 
+
+
 vector<string> ppr(std::string pat)
 {
 
@@ -618,7 +624,7 @@ void QNA_tool::query(string question, string filename)
 
     string API_KEY = "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";
     
-    int k_paragraphs = 7;
+    int k_paragraphs = 4;
 
     vector<string> q = ppr(question);
 
@@ -630,9 +636,7 @@ void QNA_tool::query(string question, string filename)
 
     Node* root = get_top_k_para(ques, k_paragraphs);
 
-    question += "\nAnswer in about 300 to 400 words using only the excerpt as your source of information."
-                "\n Correct any spelling mistakes in the question."
-                "\nYOU HAVE TO ANSWER IN A SINGLE PARAGRAPH.\n";
+    question += "\nAnswer in about 300 to 400 words using only the excerpt as your source of information, given to you in DECREASING ORDER OF PRIORITY, treat them accordingly. YOU HAVE TO ANSWER IN A SINGLE PARAGRAPH. Give the best possible answer from the text.\n";
 
     query_llm(filename, root, k_paragraphs, API_KEY, question);
         
@@ -770,8 +774,8 @@ void QNA_tool::query_llm(string filename, Node *root, int k, string API_KEY, str
     while (num_paragraph < k)
     {
         assert(traverse != nullptr);
-        string p_file = "paragraph_";
-        p_file += to_string(num_paragraph);
+        string p_file = "results/paragraph_";
+        p_file += to_string(num_paragraph+1);
         p_file += ".txt";
         // delete the file if it exists
         remove(p_file.c_str());
@@ -785,7 +789,7 @@ void QNA_tool::query_llm(string filename, Node *root, int k, string API_KEY, str
     }
 
     // write the query to query.txt
-    ofstream outfile("query.txt");
+    ofstream outfile("results/query.txt");
     outfile << "These are the excerpts from Mahatma Gandhi's books.\nOn the basis of this, ";
     outfile << question;
     // You can add anything here - show all your creativity and skills of using ChatGPT
@@ -801,7 +805,7 @@ void QNA_tool::query_llm(string filename, Node *root, int k, string API_KEY, str
     command += " ";
     command += to_string(k);
     command += " ";
-    command += "query.txt";
+    command += "results/query.txt";
 
     system(command.c_str());
     return;

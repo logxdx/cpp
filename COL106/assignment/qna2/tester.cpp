@@ -14,8 +14,8 @@ int main(){
 
     for(int i = 1; i <= num_books; i++){
 
-        // std::cout << "Book " << i << std::endl;
-        std::cout << i << std::endl;
+        std::cout << "Book " << i << std::endl;
+        // std::cout << i << std::endl;
 
         std::string filename = "MK Gandhi/mahatma-gandhi-collected-works-volume-";
         filename += to_string(i);
@@ -88,18 +88,18 @@ int main(){
     */
 
     // Let's try to ask a simple question to the qna_tool
-    Node* head = qna_tool.get_top_k_para(question, 7);
 
-    vector<string> paras;
-    while(head != nullptr){
-        string res = qna_tool.get_paragraph(head->book_code, head->page, head->paragraph);
-        paras.push_back(res);
-        head = head->right;
-    }
+    // Node* head = qna_tool.get_top_k_para(question, 7);
+    // vector<string> paras;
+    // while(head != nullptr){
+    //     string res = qna_tool.get_paragraph(head->book_code, head->page, head->paragraph);
+    //     paras.push_back(res);
+    //     head = head->right;
+    // }
 
-    for(int i = 0; i < (int)paras.size(); i++){
-        cout << paras[i] << endl << endl << endl;
-    }
+    // for(int i = 0; i < (int)paras.size(); i++){
+    //     cout << paras[i] << endl << endl << endl;
+    // }
 
     /*
         Part-2 : Query the LLM

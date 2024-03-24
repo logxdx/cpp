@@ -19,7 +19,7 @@ if __name__ == '__main__':
     paragraphs = []
 
     for i in range(num_paragraphs):
-        filename = 'paragraph_' + str(i) + '.txt'
+        filename = 'results/paragraph_' + str(i+1) + '.txt'
         # print(filename)
         with open(filename, 'r') as f:
             paragraphs.append(f.read())
@@ -49,3 +49,5 @@ if __name__ == '__main__':
 
     reply = chat.choices[0].message.content
     print(reply)
+    print()
+    
