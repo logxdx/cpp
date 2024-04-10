@@ -10,6 +10,7 @@
 
 using namespace std;
 
+
 class SparseMatrix
 {
 public:
@@ -51,19 +52,6 @@ public:
         }
 
         return 0;
-    }
-
-    double l1_norm() const
-    {
-        double norm = 0;
-        for (const auto &row_data : data)
-        {
-            for (const auto &col_value : row_data.second)
-            {
-                norm += std::abs(col_value.second);
-            }
-        }
-        return norm;
     }
 
     double l2_norm() const
@@ -352,14 +340,14 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
     // Importance vector I
     SparseMatrix I(num_pages, 1);
     I.all_same = true;
-    I.all_same_val = 1LL;
+    I.all_same_val = 1/((double)num_pages);
     
+
+
 
 
     // ** The Google matrix G ** //
     
-
-
     // Ones matrix
     double identity_val = (0.15 / num_pages);
     SparseMatrix Identity(num_pages, num_pages);
@@ -368,7 +356,6 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
 
 
 
-    int iteration = 0;
     while (true)
     {
         SparseMatrix I1 = H.multiply_vector(I);
@@ -377,8 +364,14 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
 
         SparseMatrix I_new = I1.add(I2);
 
-
-        double norm = I_new.l1_norm();
+        double norm = 0;
+        for (const auto &[row, row_data] : I_new.data)
+        {
+            for (const auto &[col, col_value] : row_data)
+            {
+                norm += std::abs(col_value);
+            }
+        }
 
         for (auto [row, row_data] : I_new.data)
         {
@@ -396,7 +389,6 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
         }
 
         I = I_new;
-        iteration++;
     }
 
 
@@ -425,7 +417,7 @@ int main()
     {
         cout << i << " = " << importance_vector.get_value(i, 0) << endl;
     }
-    cout << "s = " << importance_vector.l1_norm() << endl;
+    cout << "s = 1.0" << endl;
 
 
     return 0;

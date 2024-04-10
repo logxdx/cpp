@@ -302,7 +302,7 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
     // Importance vector I
     SparseMatrix I(num_pages, 1);
     I.all_same = true;
-    I.all_same_val = 1;
+    I.all_same_val = double(1.0/num_pages);
 
 
 
@@ -318,16 +318,17 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
     Identity.all_same_val = identity_val;
 
 
-    auto start = std::chrono::steady_clock::now();
-
     while (true)
     {
 
-        SparseMatrix I1 = H.multiply_vector(I);
-        SparseMatrix I2 = Identity.multiply_vector(I);
-        // I1 + I2 = G.I = I_new
+        auto start = std::chrono::steady_clock::now();
 
+        SparseMatrix I1 = H.multiply_vector(I);
+        auto end = std::chrono::steady_clock::now();
+        SparseMatrix I2 = Identity.multiply_vector(I);
         SparseMatrix I_new = I1.add(I2);
+        
+        // std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms" << std::endl;
 
         double norm = 0;
         for (const auto &row_data : I_new.data)
@@ -366,8 +367,6 @@ SparseMatrix compute_importance_vector(const std::unordered_map<int, std::vector
 
         I = I_new;
     }
-    auto end = std::chrono::steady_clock::now();
-    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms" << std::endl;
 
     return I;
 }
@@ -390,10 +389,10 @@ int main()
     auto end = std::chrono::steady_clock::now();
 
     // Output
-    for (int i = 0; i < importance_vector.rows; ++i)
-    {
-        std::cout << i << ": " << importance_vector.get_value(i, 0) << std::endl;
-    }
+    // for (int i = 0; i < importance_vector.rows; ++i)
+    // {
+    //     std::cout << i << " = " << importance_vector.get_value(i, 0) << std::endl;
+    // }
 
     std::cout << "s = 1.0" << std::endl;
 
